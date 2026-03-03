@@ -15,6 +15,13 @@ namespace Horizon_Seller.Controllers // Note: Your actual namespace might be sli
         {
             return View();
         }
+
+        // For Size Guide action
+        public IActionResult sizeguide()
+        {
+            return View();
+        }
     }
+
 }
 

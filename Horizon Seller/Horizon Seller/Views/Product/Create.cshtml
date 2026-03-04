@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
     <style>
         :root {
             --main-bg: #ffffff;
@@ -88,7 +90,7 @@
                 font-size: 6rem;
                 color: #444;
             }
-            
+
             .main-upload-box span {
                 font-size: 1.4rem;
                 font-weight: 600;
@@ -107,13 +109,16 @@
             .thumbnail-row::-webkit-scrollbar {
                 height: 6px;
             }
+
             .thumbnail-row::-webkit-scrollbar-track {
                 background: transparent;
             }
+
             .thumbnail-row::-webkit-scrollbar-thumb {
                 background: #bbb;
                 border-radius: 10px;
             }
+
                 .thumbnail-row::-webkit-scrollbar-thumb:hover {
                     background: #888;
                 }
@@ -163,10 +168,18 @@
         }
 
         /* Form Details */
+        /* Product Details Header Layout */
+        .details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
         h3.section-title {
             font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin: 0; /* Reset margin since wrapper handles spacing */
         }
 
         .form-row {
@@ -210,16 +223,17 @@
                 outline: none;
                 color: #222;
             }
-            
-            /* Remove up/down arrows from number inputs */
-            .split-input-box input[type="number"]::-webkit-outer-spin-button,
-            .split-input-box input[type="number"]::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
-            .split-input-box input[type="number"] {
-                -moz-appearance: textfield;
-            }
+
+                /* Remove up/down arrows from number inputs */
+                .split-input-box input[type="number"]::-webkit-outer-spin-button,
+                .split-input-box input[type="number"]::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+
+                .split-input-box input[type="number"] {
+                    -moz-appearance: textfield;
+                }
 
                 .split-input-box input::placeholder {
                     color: #444;
@@ -340,7 +354,7 @@
                 background-color: #a0a0a5;
             }
 
-        .size-guide {
+        .size-guide-link {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -353,23 +367,53 @@
             color: inherit;
         }
 
-            .size-guide i {
+            .size-guide-link i {
                 font-size: 1.6rem;
                 margin-top: 4px;
             }
 
-        /* Text Area */
+        /* Bottom Row Split: Text Area & Barcode */
+        .bottom-details-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
         textarea.custom-input {
+            flex: 1;
             height: 180px;
             resize: none;
+            margin-bottom: 0; /* Remove margin inside flex */
         }
+
+        .barcode-preview-box {
+            width: 220px;
+            background-color: var(--input-bg);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+            .barcode-preview-box span {
+                font-weight: 700;
+                color: #111;
+                margin-bottom: 15px;
+            }
+
+            .barcode-preview-box svg {
+                width: 100%;
+                height: auto;
+            }
 
         /* Action Buttons */
         .action-buttons {
             display: flex;
             justify-content: flex-end;
             gap: 15px;
-            margin-top: 20px;
         }
 
         .btn-submit {
@@ -496,7 +540,7 @@
         <div class="thumbnail-row" id="thumbnailRow">
         </div>
 
-        <h3 class="section-title">Product Details</h3>
+        <h3 class="section-title" style="margin-bottom: 15px;">Product Details</h3>
 
         <div class="form-row">
             <input type="text" class="custom-input" placeholder="Product Name">
@@ -518,20 +562,22 @@
         <div class="form-row">
             <input list="category-options" class="custom-input" name="category" placeholder="Search or select a Category...">
             <datalist id="category-options">
-                <option value="Tops" />
-                <option value="Bottoms" />
-                <option value="Outerwear" />
-                <option value="Dresses & Jumpsuits" />
-                <option value="Activewear" />
-                <option value="Footwear" />
-                <option value="Accessories" />
+                <option value="Tops"></option>
+                <option value="Bottoms"></option>
+                <option value="Outerwear"></option>
+                <option value="Dresses & Jumpsuits"></option>
+                <option value="Activewear"></option>
+                <option value="Footwear"></option>
+                <option value="Accessories"></option>
             </datalist>
         </div>
+
+        <input type="hidden" id="hiddenProductUpc" name="UPC" value="">
 
         <div id="variants-container">
             <div class="variant-row">
                 <button class="btn-plus-square"><i class="fa-solid fa-plus" style="font-weight: 300;"></i></button>
-                <input type="text" class="small-input sku-field" placeholder="SKU |">
+                <input type="text" class="small-input sku-field" id="primarySkuField" placeholder="SKU |">
                 <input type="text" class="small-input" placeholder="Size |">
                 <input type="text" class="small-input" placeholder="Style |">
                 <input type="text" class="small-input" placeholder="Quantity |">
@@ -553,14 +599,19 @@
 
         <div class="add-variant-row">
             <button class="btn-add-variant" id="btnAddVariant">Add Size & Style</button>
-            <a href="/Product/sizeguide" class="size-guide">
+            <a href="/Product/sizeguide.cshtml" class="size-guide-link">
                 Size Guide
                 <i class="fa-solid fa-ruler-horizontal"></i>
             </a>
         </div>
 
-        <div class="form-row">
+        <div class="bottom-details-row">
             <textarea class="custom-input" placeholder="Product Details"></textarea>
+
+            <div class="barcode-preview-box">
+                <span>Barcode Preview</span>
+                <svg id="liveBarcodePreview"></svg>
+            </div>
         </div>
 
         <div class="action-buttons">
@@ -579,11 +630,11 @@
     </div>
 
     <script>
-        // 0. Dynamic Page Logic 
+        // 0. Dynamic Page Logic & Live Barcode Generator
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const mode = urlParams.get('mode');
-            
+
             const pageTitle = document.getElementById('dynamic-page-title');
             const submitBtn = document.getElementById('dynamic-submit-btn');
 
@@ -601,34 +652,69 @@
                 submitBtn.innerText = 'Add Product';
             }
 
-            const firstSkuField = document.querySelector('.sku-field');
+            // --- Auto Generate UPC and Render Barcode ---
+            const generatedUpc = generateUPC();
+            document.getElementById('hiddenProductUpc').value = generatedUpc; // Save to hidden field
+            updateBarcodePreview(generatedUpc); // Draw the barcode immediately
+
+            // Generate a starting SKU for the first variant row
+            const firstSkuField = document.getElementById('primarySkuField');
             if(firstSkuField && !firstSkuField.value) {
                 firstSkuField.value = generateSKU();
             }
         });
 
+        // Function to generate the Barcode via JSBarcode
+        function updateBarcodePreview(upcValue) {
+            const svgTarget = document.getElementById("liveBarcodePreview");
+
+            if (!upcValue || upcValue.trim() === '') {
+                svgTarget.innerHTML = '';
+                return;
+            }
+
+            try {
+                JsBarcode("#liveBarcodePreview", upcValue.trim(), {
+                    format: "CODE128",
+                    lineColor: "#000000",
+                    background: "transparent",
+                    width: 2,
+                    height: 50,
+                    displayValue: true,
+                    fontSize: 14,
+                    font: "Inter",
+                    margin: 0
+                });
+            } catch (error) {
+                svgTarget.innerHTML = '';
+            }
+        }
+
+        // Generate an alphanumeric SKU for variants
         function generateSKU() {
             return 'SKU-' + Math.random().toString(36).substr(2, 6).toUpperCase();
         }
 
-        // --- NEW: Price and Discount Logic ---
+        // Generate a 12-digit numeric UPC for the product barcode
+        function generateUPC() {
+            return Math.floor(100000000000 + Math.random() * 900000000000).toString();
+        }
+
+        // --- Price and Discount Logic ---
         const priceInput = document.getElementById('basePrice');
         const discountInput = document.getElementById('discountPercent');
         const finalPriceDisplay = document.getElementById('finalPriceDisplay');
 
-        // Block 'e', '+', '-' on number inputs
         function blockInvalidNumberInput(e) {
             if (['e', 'E', '+', '-'].includes(e.key)) {
                 e.preventDefault();
             }
         }
-        
-        // Calculate the Final Discounted Price visually
+
         function calculateFinalPrice() {
             let price = parseFloat(priceInput.value) || 0;
             let discount = parseFloat(discountInput.value) || 0;
 
-            // Cap discount at 100%
             if (discount > 100) {
                 discount = 100;
                 discountInput.value = 100;
@@ -647,7 +733,7 @@
         const uploadBox = document.getElementById('uploadBox');
         const imageInput = document.getElementById('imageInput');
         const thumbnailRow = document.getElementById('thumbnailRow');
-        let uploadedImages = []; 
+        let uploadedImages = [];
 
         uploadBox.addEventListener('click', () => {
             imageInput.click();
@@ -681,14 +767,14 @@
         // 2. Dynamic Variant Row Logic
         const btnAddVariant = document.getElementById('btnAddVariant');
         const variantsContainer = document.getElementById('variants-container');
-        let variantIdCounter = 0; // Ensures each row gets unique radio button groups
+        let variantIdCounter = 0;
 
         btnAddVariant.addEventListener('click', () => {
             variantIdCounter++;
             const newRow = document.createElement('div');
             newRow.className = 'variant-row';
             const newSku = generateSKU();
-            
+
             newRow.innerHTML = `
                 <button class="btn-plus-square"><i class="fa-solid fa-plus" style="font-weight: 300;"></i></button>
                 <input type="text" class="small-input sku-field" value="${newSku}" placeholder="SKU |">
@@ -719,7 +805,7 @@
         // 3. Select Picture for specific variant Logic
         const imageModal = document.getElementById('imageModal');
         const modalGrid = document.getElementById('modalGrid');
-        let currentVariantBtn = null; 
+        let currentVariantBtn = null;
 
         variantsContainer.addEventListener('click', function(e) {
             const btn = e.target.closest('.btn-plus-square');
@@ -730,7 +816,7 @@
         });
 
         function openImageSelector() {
-            modalGrid.innerHTML = ''; 
+            modalGrid.innerHTML = '';
 
             if (uploadedImages.length === 0) {
                 modalGrid.innerHTML = '<p style="grid-column: 1 / -1; color: #555;">Please upload some photos first using the big cloud box above.</p>';

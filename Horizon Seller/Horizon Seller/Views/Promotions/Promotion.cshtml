@@ -1,0 +1,426 @@
+﻿@{
+    ViewData["Title"] = "Promotions";
+    Layout = null;
+    var activeCount = 0;
+    var inactiveCount = 0;
+    var deletedCount = 0;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXT HORIZON - Promotions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/Promotions.css">
+
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <div style="background: white; color: black; padding: 2px 10px; border-radius: 6px;">H</div>
+            HORIZON
+        </div>
+        <nav>
+            <a href="#" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-receipt"></i> Orders</a>
+            <a href="#" class="nav-item active"><i class="fa-solid fa-bag-shopping"></i> Products</a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-wallet"></i> Finances</a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
+        </nav>
+    </aside>
+
+    <div class="main-wrapper">
+        <header class="header">
+            <i class="fa-regular fa-bell" style="font-size: 1.4rem; cursor: pointer;"></i>
+            <div style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                <i class="fa-regular fa-circle-user" style="font-size: 1.8rem;"></i>
+                <span style="font-weight: 600;">Seller</span>
+                <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
+            </div>
+        </header>
+
+        <div class="content-container">
+
+            <div class="page-title-header">
+                <button class="btn-back" onclick="window.history.back()">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <h1>Promotions</h1>
+            </div>
+
+            <button class="btn-create" onclick="window.location.href='/Promotions/AddPromotion'">
+                <i class="fa-solid fa-plus"></i> Add Promotions
+            </button>
+
+            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 20px;">Overview</h2>
+
+            <div class="overview-grid">
+                <div class="overview-card active-card" onclick="changeTab('active', this)">
+                    <span>Active<br>Promotions</span>
+                    <div class="badge" id="badge-active" style="background: var(--accent-green);">@activeCount</div>
+                </div>
+                <div class="overview-card" onclick="changeTab('inactive', this)">
+                    <span>Inactive<br>Promotions</span>
+                    <div class="badge" id="badge-inactive" style="background: var(--accent-yellow);">@inactiveCount</div>
+                </div>
+                <div class="overview-card" onclick="changeTab('deleted', this)">
+                    <span>Deleted<br>Promotions</span>
+                    <div class="badge" id="badge-deleted" style="background: var(--accent-red);">@deletedCount</div>
+                </div>
+            </div>
+
+            <div class="product-box">
+                <div class="product-header">
+                    <h3 id="display-title" style="font-weight: 700; font-size: 1.15rem; margin: 0;">Active Promotions</h3>
+                </div>
+
+                <div id="active-content" class="product-group visible">
+
+                    <div class="product-row">
+                        <div class="product-detail">
+                            <div class="product-img" style="background: linear-gradient(135deg, #FFD13B 50%, #612F87 50%);"></div>
+                            <div class="product-info">
+                                <h4>3.3 50% Promotional Discount</h4>
+                                <p>March 03. 2026</p>
+                                <p class="usage-limit">Usage Limit: 100</p>
+                                <p class="validity">Valid Until March 03, 2026 - 12 PM</p>
+                            </div>
+                        </div>
+                        <div class="action-menu-container">
+                            <button class="btn-ellipses" onclick="toggleMenu(event, this)">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">Edit</a>
+                                <a onclick="deleteItem(event, this)" class="dropdown-item">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <div class="product-detail">
+                            <div class="product-img" style="background: linear-gradient(135deg, #4CAF50 50%, #2E7D32 50%);"></div>
+                            <div class="product-info">
+                                <h4>Spring Clean Clearance</h4>
+                                <p>April 01. 2026</p>
+                                <p class="usage-limit">Usage Limit: 50</p>
+                                <p class="validity">Valid Until April 15, 2026 - 11 PM</p>
+                            </div>
+                        </div>
+                        <div class="action-menu-container">
+                            <button class="btn-ellipses" onclick="toggleMenu(event, this)">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">Edit</a>
+                                <a onclick="deleteItem(event, this)" class="dropdown-item">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <div class="product-detail">
+                            <div class="product-img" style="background: linear-gradient(135deg, #2196F3 50%, #1565C0 50%);"></div>
+                            <div class="product-info">
+                                <h4>New User Welcome Bonus</h4>
+                                <p>Ongoing</p>
+                                <p class="usage-limit">Usage Limit: Unlimited</p>
+                                <p class="validity">Valid Until Dec 31, 2026 - 12 PM</p>
+                            </div>
+                        </div>
+                        <div class="action-menu-container">
+                            <button class="btn-ellipses" onclick="toggleMenu(event, this)">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">Edit</a>
+                                <a onclick="deleteItem(event, this)" class="dropdown-item">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <div class="product-detail">
+                            <div class="product-img" style="background: linear-gradient(135deg, #FF5722 50%, #D84315 50%);"></div>
+                            <div class="product-info">
+                                <h4>Flash Sale Friday</h4>
+                                <p>March 13. 2026</p>
+                                <p class="usage-limit">Usage Limit: 200</p>
+                                <p class="validity">Valid Until March 13, 2026 - 11:59 PM</p>
+                            </div>
+                        </div>
+                        <div class="action-menu-container">
+                            <button class="btn-ellipses" onclick="toggleMenu(event, this)">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">Edit</a>
+                                <a onclick="deleteItem(event, this)" class="dropdown-item">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <div class="product-detail">
+                            <div class="product-img" style="background: linear-gradient(135deg, #E91E63 50%, #AD1457 50%);"></div>
+                            <div class="product-info">
+                                <h4>Buy 1 Get 1 Free</h4>
+                                <p>March 20. 2026</p>
+                                <p class="usage-limit">Usage Limit: 75</p>
+                                <p class="validity">Valid Until March 25, 2026 - 12 PM</p>
+                            </div>
+                        </div>
+                        <div class="action-menu-container">
+                            <button class="btn-ellipses" onclick="toggleMenu(event, this)">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">Edit</a>
+                                <a onclick="deleteItem(event, this)" class="dropdown-item">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="inactive-content" class="product-group">
+                    <div class="product-row">
+                        <div class="product-detail">
+                            <div class="product-img" style="background: linear-gradient(135deg, #FFD13B 50%, #612F87 50%);"></div>
+                            <div class="product-info">
+                                <h4>Valentine's Day Special</h4>
+                                <p>February 14. 2026</p>
+                                <p class="usage-limit">Usage Limit: 100</p>
+                                <p class="validity">Valid Until February 14, 2026 - 12 PM</p>
+                            </div>
+                        </div>
+                        <div class="action-menu-container">
+                            <button class="btn-ellipses" onclick="toggleMenu(event, this)">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">Edit</a>
+                                <a onclick="deleteItem(event, this)" class="dropdown-item">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="deleted-content" class="product-group">
+                    <div class="product-row">
+                        <div class="product-detail">
+                            <div class="product-img" style="background: linear-gradient(135deg, #FFD13B 50%, #612F87 50%); filter: grayscale(100%);"></div>
+                            <div class="product-info">
+                                <h4>Old Summer Discount</h4>
+                                <p>April 25. 2025</p>
+                                <p class="usage-limit">Usage Limit: 100</p>
+                                <p class="validity">Valid Until May 25, 2025 - 12 PM</p>
+                            </div>
+                        </div>
+                        <div class="action-menu-container">
+                            <button class="btn-ellipses" onclick="toggleMenu(event, this)">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">Restore</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination" id="pagination-controls">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pagination State Variables
+        const ITEMS_PER_PAGE = 4;
+        let currentPage = 1;
+        let currentTabId = 'active'; // Default tab on load
+
+        // 1. Function to dynamically count items, update badges, AND refresh pagination
+        function updateProductCounts() {
+            var activeCount = document.querySelectorAll('#active-content .product-row').length;
+            var inactiveCount = document.querySelectorAll('#inactive-content .product-row').length;
+            var deletedCount = document.querySelectorAll('#deleted-content .product-row').length;
+
+            document.getElementById('badge-active').innerText = activeCount;
+            document.getElementById('badge-inactive').innerText = inactiveCount;
+            document.getElementById('badge-deleted').innerText = deletedCount;
+
+            // Trigger pagination update to ensure the view matches the new counts
+            updatePagination();
+        }
+
+        // Run on initial load
+        document.addEventListener("DOMContentLoaded", function () {
+            updateProductCounts();
+        });
+
+        // 2. Tab Changing Logic
+        function changeTab(tabId, element) {
+            // Reset all cards styling
+            var cards = document.getElementsByClassName('overview-card');
+            for (var i = 0; i < cards.length; i++) {
+                cards[i].classList.remove('active-card');
+            }
+
+            // Highlight clicked card
+            element.classList.add('active-card');
+
+            // Hide all product groups
+            var groups = document.getElementsByClassName('product-group');
+            for (var j = 0; j < groups.length; j++) {
+                groups[j].classList.remove('visible');
+            }
+
+            // Show the selected group
+            document.getElementById(tabId + '-content').classList.add('visible');
+
+            // Update the list title
+            var titles = {
+                'active': 'Active Promotions',
+                'inactive': 'Inactive Promotions',
+                'deleted': 'Deleted Promotions'
+            };
+            document.getElementById('display-title').innerText = titles[tabId];
+
+            // Reset Pagination to Page 1 and update the current tracking tab
+            currentPage = 1;
+            currentTabId = tabId;
+            updatePagination();
+        }
+
+        // 3. Dropdown Menu Toggle Logic
+        function toggleMenu(event, buttonElement) {
+            event.stopPropagation();
+            var allDropdowns = document.getElementsByClassName("dropdown-menu");
+            for (var i = 0; i < allDropdowns.length; i++) {
+                if (allDropdowns[i] !== buttonElement.nextElementSibling) {
+                    allDropdowns[i].classList.remove('show');
+                }
+            }
+            var menu = buttonElement.nextElementSibling;
+            menu.classList.toggle("show");
+        }
+
+        // 4. Logic to move an item to the "Deleted" tab
+        function deleteItem(event, buttonElement) {
+            event.preventDefault();
+            var rowToMove = buttonElement.closest('.product-row');
+            buttonElement.closest('.dropdown-menu').classList.remove('show');
+
+            var img = rowToMove.querySelector('.product-img');
+            if(img) img.style.filter = "grayscale(100%)";
+
+            document.getElementById('deleted-content').appendChild(rowToMove);
+
+            var menu = rowToMove.querySelector('.dropdown-menu');
+            menu.innerHTML = '<a href="#" class="dropdown-item">Restore</a>';
+
+            // Recalculate everything
+            updateProductCounts();
+        }
+
+        // 5. Close dropdown if clicked outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.btn-ellipses') && !event.target.closest('.btn-ellipses')) {
+                var dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        // 6. NEW: Frontend Pagination Logic
+        function updatePagination() {
+            const container = document.getElementById(currentTabId + '-content');
+            const rows = container.querySelectorAll('.product-row');
+            const totalItems = rows.length;
+            const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+            // Safety check: if an item is deleted and the page becomes empty, go back a page
+            if (currentPage > totalPages && totalPages > 0) {
+                currentPage = totalPages;
+            } else if (totalPages === 0) {
+                currentPage = 1;
+            }
+
+            // Loop through all items in the current tab and only show the ones for the current page
+            rows.forEach((row, index) => {
+                if (index >= (currentPage - 1) * ITEMS_PER_PAGE && index < currentPage * ITEMS_PER_PAGE) {
+                    row.style.display = 'flex'; // Show
+                } else {
+                    row.style.display = 'none'; // Hide
+                }
+            });
+
+            // Render the page numbers at the bottom
+            renderPaginationControls(totalPages);
+        }
+
+        function renderPaginationControls(totalPages) {
+            const paginationContainer = document.getElementById('pagination-controls');
+            paginationContainer.innerHTML = ''; // Clear out the old pagination
+
+            // If there are no items, or just 1 page, render a disabled static "1"
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = `
+                    <i class="fa-solid fa-chevron-left nav-arrow disabled"></i>
+                    <span class="page-active">1</span>
+                    <i class="fa-solid fa-chevron-right nav-arrow disabled"></i>
+                `;
+                return;
+            }
+
+            // 1. Create Previous Arrow
+            const prevArrow = document.createElement('i');
+            prevArrow.className = `fa-solid fa-chevron-left nav-arrow ${currentPage === 1 ? 'disabled' : ''}`;
+            if (currentPage > 1) {
+                prevArrow.onclick = () => goToPage(currentPage - 1);
+            }
+            paginationContainer.appendChild(prevArrow);
+
+            // 2. Create Numbered Pages
+            for (let i = 1; i <= totalPages; i++) {
+                const pageSpan = document.createElement('span');
+                pageSpan.innerText = i;
+
+                if (i === currentPage) {
+                    pageSpan.className = 'page-active';
+                } else {
+                    pageSpan.className = 'page-number';
+                    pageSpan.onclick = () => goToPage(i);
+                }
+                paginationContainer.appendChild(pageSpan);
+            }
+
+            // 3. Create Next Arrow
+            const nextArrow = document.createElement('i');
+            nextArrow.className = `fa-solid fa-chevron-right nav-arrow ${currentPage === totalPages ? 'disabled' : ''}`;
+            if (currentPage < totalPages) {
+                nextArrow.onclick = () => goToPage(currentPage + 1);
+            }
+            paginationContainer.appendChild(nextArrow);
+        }
+
+        // Helper to trigger page changes when clicking a number
+        function goToPage(pageNumber) {
+            currentPage = pageNumber;
+            updatePagination();
+        }
+
+    </script>
+
+</body>
+</html>

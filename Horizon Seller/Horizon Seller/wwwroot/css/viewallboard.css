@@ -1,0 +1,509 @@
+﻿/* Import the font we talked about */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    color: #111827;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Navigation */
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.125rem;
+    letter-spacing: 0.025em;
+}
+
+.logo-placeholder {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #1f2937;
+    border-radius: 0.125rem;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 1px solid #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4b5563;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.3rem 1.5rem;
+}
+
+.header-btn {
+    font-size: 1.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+    .header-btn:hover {
+        color: #4b5563;
+    }
+
+.header-title {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: .16rem;
+}
+
+/* Podium Section */
+.podium-container {
+    width: 100%;
+    max-width: 48rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-top: 6rem; /* Adjusted for larger avatars */
+    margin-bottom: 3rem;
+    height: auto; /* Removed fixed height so the 450px pillar fits */
+}
+
+.podium {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+    /* Width imported from first CSS */
+    .podium.second, .podium.third, .podium.first {
+        width: 220px;
+    }
+
+/* Avatar styling imported from first CSS .podium-avatar */
+.podium-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid #000;
+    position: absolute;
+    top: -90px;
+    background: #fff;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.podium-arch {
+    width: 100%;
+    border-top-left-radius: 100px; /* Matched to first CSS border-radius */
+    border-top-right-radius: 100px;
+    padding: 120px 0.5rem 1rem; /* Increased top padding so text clears the 200px avatar */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Heights imported from first CSS .podium-pillar */
+.second .podium-arch {
+    background-color: #A7ACB1;
+    height: 290px;
+}
+
+.first .podium-arch {
+    background-color: #b4b8bc;
+    height: 390px;
+}
+
+.third .podium-arch {
+    background-color: #9ca1a6;
+    height: 220px;
+}
+
+.podium-name {
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.podium-stat {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+    .podium-stat.mt {
+        margin-top: 0.5rem;
+    }
+
+/* Filter Buttons */
+.filters {
+    display: flex;
+    gap: 1rem;
+    margin-top: -10px;
+    margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+    padding: 0.5rem 2rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: lighter;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-region {
+    border: 1px solid #000;
+    background: transparent;
+}
+
+    .btn-region:hover {
+        background-color: #f3f4f6;
+    }
+
+.btn-national {
+    background-color: #1a1a1a;
+    color: #fff;
+    border: 1px solid #1a1a1a;
+}
+
+    .btn-national:hover {
+        background-color: #000;
+    }
+
+/* Leaderboard Table Section */
+.board-section {
+    width: 100%;
+    background-color: #0a0a0a;
+    color: #ffffff;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    padding: 2rem 0 2.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    flex-grow: 1; /* Pushes to the bottom */
+}
+
+.board-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 1.5rem auto;
+    padding: 0 0.2rem;
+}
+
+.board-grid {
+    display: grid;
+    grid-template-columns: 100px 1fr 150px 150px 120px;
+    gap: 1rem;
+    align-items: center;
+}
+
+.board-header {
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #1f2937;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.board-row {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid #1f2937;
+}
+
+    .board-row:last-child {
+        border-bottom: none;
+    }
+
+.col-center {
+    text-align: center;
+}
+
+.col-name {
+    text-align: left;
+    padding-left: 8rem;
+}
+
+.col-right {
+    text-align: right;
+    padding-right: 1rem;
+}
+
+.time {
+    text-align: right;
+    padding-right: 2rem;
+}
+
+.rank {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.runner-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.runner-avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: 2px solid #4b5563;
+    object-fit: cover;
+}
+
+.runner-name {
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+}
+
+.stat-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+/* ==============================================================
+   STORY MODAL UI (Imported from Leaderboard Dashboard)
+   ============================================================== */
+
+.story-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.9);
+    z-index: 2000;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.story-container {
+    width: 100%;
+    max-width: 480px;
+    height: 100%;
+    margin: 40px auto 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.story-header {
+    position: fixed;
+    top: 40px;
+    left: 40px;
+    z-index: 2010;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 30px;
+    padding: 0;
+}
+
+.story-profile {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    gap: 15px;
+    font-family: 'Inter', sans-serif;
+    font-weight: lighter;
+    cursor: pointer;
+}
+
+.story-header .story-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.story-name {
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.story-body {
+    width: 100%;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.story-main-image {
+    width: 100%;
+    height: 70vh;
+    min-height: 650px;
+    object-fit: cover;
+    display: block;
+}
+
+.story-data {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 50px;
+    box-sizing: border-box;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    pointer-events: none;
+}
+
+.data-item {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+    .data-item .label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+    }
+
+    .data-item .value {
+        display: block;
+        font-size: 2.2rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
+
+.strava-section {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
+}
+
+.strava-route-squiggle {
+    width: 150px;
+    height: 60px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(to right, rgba(255,165,0,0) 0%, rgba(255,165,0,1) 50%, rgba(255,165,0,0) 100%);
+    mask-image: linear-gradient(to right, rgba(255,165,0,0) 0%, rgba(255,165,0,1) 50%, rgba(255,165,0,0) 100%);
+    margin: 0 auto 5px auto;
+}
+
+.strava-text {
+    font-weight: 800;
+    color: #ffffff;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+}
+
+.story-navigation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 2005;
+}
+
+.nav-hitbox {
+    width: 50%;
+    height: 100%;
+    cursor: pointer;
+    background: transparent;
+}
+
+/* Modal Mobile Adjustments */
+@media screen and (max-width: 768px) {
+    .story-header {
+        top: 20px;
+        left: 20px;
+        margin-right: 20px;
+    }
+
+        .story-header .story-avatar {
+            width: 40px;
+            height: 40px;
+        }
+
+    .story-name {
+        font-size: 0.9rem;
+    }
+
+    .close-btn {
+        font-size: 1.2rem;
+        margin-right: 15px;
+    }
+
+    .story-container {
+        margin: 80px auto 0 auto;
+        max-width: 100%;
+        padding-bottom: 20px;
+    }
+
+    .story-main-image {
+        min-height: 500px;
+        height: 65vh;
+    }
+}
+
+

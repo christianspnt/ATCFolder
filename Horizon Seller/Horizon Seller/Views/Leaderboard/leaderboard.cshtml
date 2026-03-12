@@ -1,0 +1,206 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Champions Leaderboard";
+
+    // Replaced dynamic objects with a strongly-typed 'Runner' record (defined at the bottom)
+    var runners = new List<Runner>
+    {
+        new Runner("4th", "MANNY PACMAN PACQUIAO", "5.01 KM", "7:02 /KM", "35m 16s", "https://i.pravatar.cc/150?u=manny", "4"),
+        new Runner("5th", "JASMINE JANE MARANGAY", "4.86 KM", "6:56 /KM", "76m 11s", "https://i.pravatar.cc/150?u=jasmine", "5"),
+        new Runner("6th", "CHARLOTTE PASILOTTE", "4.72 KM", "3:02 /KM", "60m 34s", "https://i.pravatar.cc/150?u=charlotte", "6"),
+        new Runner("7th", "NORMAN DEL JESUS", "3.49 KM", "3:31 /KM", "89m 6s", "https://i.pravatar.cc/150?u=norman", "7"),
+        new Runner("8th", "MONKEY D LUFFY", "2.21 KM", "2:54 /KM", "47m 56s", "https://i.pravatar.cc/150?u=luffy", "8")
+    };
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/leaderboard.css">
+</head>
+<body>
+
+    <header class="header">
+        <a href="leaderboarddashboard" class="header-back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <a href="uploadtracker" class="header-btn">+</a>
+    </header>
+
+    <section class="top-section">
+        <div class="hero-podium-wrapper">
+            <div class="hero-text">
+                <h1>CHAMPIONS</h1>
+                <h2>Train hard. Stay focused.</h2>
+                <p>Progress is built daily.</p>
+            </div>
+
+            <div class="podium-container">
+                <div class="podium-pillar second">
+                    <img src="https://i.pravatar.cc/150?img=32" alt="Alexandra" class="podium-avatar story-trigger" data-id="2">
+                    <div class="podium-info">
+                        <h3>ALEXANDRA EALA</h3>
+                        <p>5.11 KM Distance</p>
+                    </div>
+                </div>
+
+                <div class="podium-pillar first">
+                    <img src="https://i.pravatar.cc/150?img=11" alt="Cristiano" class="podium-avatar story-trigger" data-id="1">
+                    <div class="podium-info">
+                        <h3>CRISTIANO RONALDO</h3>
+                        <p>7.09KM Distance</p>
+                    </div>
+                </div>
+
+                <div class="podium-pillar third">
+                    <img src="https://i.pravatar.cc/150?img=12" alt="Carlos" class="podium-avatar story-trigger" data-id="3">
+                    <div class="podium-info">
+                        <h3>CARLOS YULO</h3>
+                        <p>5.02KM Distance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toggle-container">
+            <a href="#" class="toggle-btn outline">REGION</a>
+            <a href="#" class="toggle-btn filled">NATIONAL</a>
+        </div>
+    </section>
+
+    <section class="board-section">
+        <div class="board-container">
+
+            <div class="board-grid board-header">
+                <div class="col-center">RANKING</div>
+                <div class="col-name">NAME</div>
+                <div class="col-center">DISTANCE</div>
+                <div class="col-center">PACE</div>
+                <div class="time">TIME</div>
+            </div>
+
+            <div class="board-list">
+                @foreach (var runner in runners)
+                {
+                    <div class="board-grid board-row">
+                        <div class="col-center rank">
+                            @runner.Rank
+                        </div>
+
+                        <div class="runner-info">
+                            <img src="@runner.Image" alt="@runner.Name" class="runner-avatar story-trigger" data-id="@runner.Id" style="cursor: pointer;" />
+                            <span class="runner-name">@runner.Name</span>
+                        </div>
+
+                        <div class="col-center stat-text">
+                            @runner.Distance
+                        </div>
+
+                        <div class="col-center stat-text">
+                            @runner.Pace
+                        </div>
+
+                        <div class="col-right stat-text">
+                            @runner.Time
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </section>
+
+    <div class="story-modal" id="storyViewer">
+        <div class="story-header">
+            <button id="closeStory" class="close-btn"><i class="fas fa-times"></i></button>
+
+            <a href="profile.cshtml" class="story-profile">
+                <img src="" alt="Profile" class="story-avatar">
+                <span class="story-name"></span>
+            </a>
+        </div>
+
+        <div class="story-container">
+            <div class="story-body">
+                <img src="" alt="Story Image" class="story-main-image">
+                <div class="story-data">
+                    <div class="data-item"><span class="label">Distance</span><span class="value" id="modalDist"></span></div>
+                    <div class="data-item"><span class="label">Pace</span><span class="value" id="modalPace"></span></div>
+                    <div class="data-item"><span class="label">Time</span><span class="value" id="modalTime"></span></div>
+                </div>
+                <div class="strava-section">
+                    <div class="strava-route-squiggle"></div>
+                    <div class="strava-text">NEXT HORIZON</div>
+                </div>
+            </div>
+            <div class="story-navigation">
+                <div class="nav-hitbox left" id="prevStory"></div>
+                <div class="nav-hitbox right" id="nextStory"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Centralized dummy data for all clickable avatars on this page
+            const stories = [
+                { id: "1", name: "CRISTIANO RONALDO", avatar: "https://i.pravatar.cc/150?u=cristiano", img: "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=400&auto=format&fit=crop", dist: "7.09 KM", pace: "4:59 /KM", time: "35m 22s" },
+                { id: "2", name: "ALEXANDRA EALA", avatar: "https://i.pravatar.cc/150?u=alexandra", img: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=400&auto=format&fit=crop", dist: "5.11 KM", pace: "6:03 /KM", time: "30m 57s" },
+                { id: "3", name: "CARLOS YULO", avatar: "https://i.pravatar.cc/150?u=carlos", img: "https://images.unsplash.com/photo-1530143311094-34d807799e8f?q=80&w=400&auto=format&fit=crop", dist: "5.02 KM", pace: "6:26 /KM", time: "33m 40s" },
+                { id: "4", name: "MANNY PACMAN PACQUIAO", avatar: "https://i.pravatar.cc/150?u=manny", img: "https://images.unsplash.com/photo-1502224562085-639556652f33?q=80&w=400&auto=format&fit=crop", dist: "5.01 KM", pace: "7:02 /KM", time: "35m 16s" },
+                { id: "5", name: "JASMINE JANE MARANGAY", avatar: "https://i.pravatar.cc/150?u=jasmine", img: "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=400&auto=format&fit=crop", dist: "4.86 KM", pace: "6:56 /KM", time: "76m 11s" },
+                { id: "6", name: "CHARLOTTE PASILOTTE", avatar: "https://i.pravatar.cc/150?u=charlotte", img: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=400&auto=format&fit=crop", dist: "4.72 KM", pace: "3:02 /KM", time: "60m 34s" },
+                { id: "7", name: "NORMAN DEL JESUS", avatar: "https://i.pravatar.cc/150?u=norman", img: "https://images.unsplash.com/photo-1530143311094-34d807799e8f?q=80&w=400&auto=format&fit=crop", dist: "3.49 KM", pace: "3:31 /KM", time: "89m 6s" },
+                { id: "8", name: "MONKEY D LUFFY", avatar: "https://i.pravatar.cc/150?u=luffy", img: "https://images.unsplash.com/photo-1502224562085-639556652f33?q=80&w=400&auto=format&fit=crop", dist: "2.21 KM", pace: "2:54 /KM", time: "47m 56s" },
+                { id: "profile", name: "MY PROFILE", avatar: "https://i.pravatar.cc/150?u=me", img: "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=400&auto=format&fit=crop", dist: "10.00 KM", pace: "5:00 /KM", time: "50m 00s" }
+            ];
+
+            const modal = document.getElementById('storyViewer');
+            let currentIndex = 0;
+
+            function openStory(index) {
+                if (index < 0) index = stories.length - 1; // Loop to end
+                if (index >= stories.length) index = 0;    // Loop to start
+
+                currentIndex = index;
+                const data = stories[currentIndex];
+
+                document.querySelector('.story-avatar').src = data.avatar;
+                document.querySelector('.story-name').textContent = data.name;
+                document.querySelector('.story-main-image').src = data.img;
+                document.getElementById('modalDist').textContent = data.dist;
+                document.getElementById('modalPace').textContent = data.pace;
+                document.getElementById('modalTime').textContent = data.time;
+
+                modal.style.display = 'block';
+            }
+
+            // Click event listener for triggers
+            document.querySelectorAll('.story-trigger').forEach(trigger => {
+                trigger.addEventListener('click', (e) => {
+                    // e.currentTarget ensures we get the data-id even if they click on the image inside the trigger
+                    const id = e.currentTarget.getAttribute('data-id');
+                    const index = stories.findIndex(s => s.id === id);
+                    if (index !== -1) openStory(index);
+                });
+            });
+
+            // Navigation and Close logic
+            document.getElementById('prevStory').addEventListener('click', () => openStory(currentIndex - 1));
+            document.getElementById('nextStory').addEventListener('click', () => openStory(currentIndex + 1));
+            document.getElementById('closeStory').addEventListener('click', () => { modal.style.display = 'none'; });
+        });
+    </script>
+</body>
+</html>
+
+@functions {
+    // Defining a strict type for our mock data eliminates Razor's dynamic rendering bug
+    public record Runner(string Rank, string Name, string Distance, string Pace, string Time, string Image, string Id);
+}
+
+

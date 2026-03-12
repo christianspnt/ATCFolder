@@ -1,0 +1,211 @@
+﻿@page
+@{
+    Layout = null;
+
+    // Mock Data to demonstrate Razor rendering
+    var runners = new List<dynamic>
+    {
+        new { Rank = "4th", Name = "MANNY PACMAN PACQUIAO", Distance = "5.01 KM", Pace = "7:02 /KM", Time = "35m 16s", Image = "https://i.pravatar.cc/150?u=manny", Id = "4" },
+        new { Rank = "5th", Name = "JASMINE JANE MARANGAY", Distance = "4.86 KM", Pace = "6:56 /KM", Time = "76m 11s", Image = "https://i.pravatar.cc/150?u=jasmine", Id = "5" },
+        new { Rank = "6th", Name = "CHARLOTTE PASILOTTE", Distance = "4.72 KM", Pace = "3:02 /KM", Time = "60m 34s", Image = "https://i.pravatar.cc/150?u=charlotte", Id = "6" },
+        new { Rank = "7th", Name = "NORMAN DEL JESUS", Distance = "3.49 KM", Pace = "3:31 /KM", Time = "89m 6s", Image = "https://i.pravatar.cc/150?u=norman", Id = "7" },
+        new { Rank = "8th", Name = "MONKEY D LUFFY", Distance = "2.21 KM", Pace = "2:54 /KM", Time = "47m 56s", Image = "https://i.pravatar.cc/150?u=luffy", Id = "8" }
+    };
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Next Horizon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/viewallboard.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="logo-placeholder"></div>
+            NEXT HORIZON
+        </div>
+        <div class="nav-icons">
+            <div class="profile-icon story-trigger" data-id="profile" style="cursor: pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="pointer-events: none;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+    </nav>
+
+    <header class="header">
+        <a href="leaderboarddashboard" class="header-btn">&larr;</a>
+        <h1 class="header-title">LEADERBOARD</h1>
+        <a href="uploadtracker" class="header-btn">+</a>
+    </header>
+
+    <section class="podium-container">
+        <div class="podium second">
+            <img src="https://i.pravatar.cc/150?u=alexandra" alt="Alexandra Eala" class="podium-img story-trigger" data-id="2" />
+            <div class="podium-arch">
+                <h3 class="podium-name">ALEXANDRA EALA</h3>
+                <p class="podium-stat mt">5.11 KM Distance</p>
+                <p class="podium-stat">6:03 /KM Pace</p>
+            </div>
+        </div>
+
+        <div class="podium first">
+            <img src="https://i.pravatar.cc/150?u=cristiano" alt="Cristiano Ronaldo" class="podium-img story-trigger" data-id="1" />
+            <div class="podium-arch">
+                <h3 class="podium-name">CRISTIANO RONALDO</h3>
+                <p class="podium-stat mt">7.09KM Distance</p>
+                <p class="podium-stat">4:59 /KM Pace</p>
+            </div>
+        </div>
+
+        <div class="podium third">
+            <img src="https://i.pravatar.cc/150?u=carlos" alt="Carlos Yulo" class="podium-img story-trigger" data-id="3" />
+            <div class="podium-arch">
+                <h3 class="podium-name">CARLOS YULO</h3>
+                <p class="podium-stat mt">5.02KM Distance</p>
+                <p class="podium-stat">6:26 /KM Pace</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="filters">
+        <button class="filter-btn btn-region">REGION</button>
+        <button class="filter-btn btn-national">NATIONAL</button>
+    </div>
+
+    <section class="board-section">
+        <div class="board-container">
+
+            <div class="board-grid board-header">
+                <div class="col-center">RANKING</div>
+                <div class="col-name">NAME</div>
+                <div class="col-center">DISTANCE</div>
+                <div class="col-center">PACE</div>
+                <div class="time">TIME</div>
+            </div>
+
+            <div class="board-list">
+                @foreach (var runner in runners)
+                {
+                    <div class="board-grid board-row">
+                        <div class="col-center rank">
+                            @runner.Rank
+                        </div>
+
+                        <div class="runner-info">
+                            <img src="@runner.Image" alt="@runner.Name" class="runner-avatar story-trigger" data-id="@runner.Id" style="cursor: pointer;" />
+                            <span class="runner-name">@runner.Name</span>
+                        </div>
+
+                        <div class="col-center stat-text">
+                            @runner.Distance
+                        </div>
+
+                        <div class="col-center stat-text">
+                            @runner.Pace
+                        </div>
+
+                        <div class="col-right stat-text">
+                            @runner.Time
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </section>
+
+    <div class="story-modal" id="storyViewer">
+        <div class="story-header">
+            <button id="closeStory" class="close-btn"><i class="fas fa-times"></i></button>
+
+            <a href="profile.cshtml" class="story-profile">
+                <img src="" alt="Profile" class="story-avatar">
+                <span class="story-name"></span>
+            </a>
+        </div>
+
+        <div class="story-container">
+            <div class="story-body">
+                <img src="" alt="Story Image" class="story-main-image">
+                <div class="story-data">
+                    <div class="data-item"><span class="label">Distance</span><span class="value" id="modalDist"></span></div>
+                    <div class="data-item"><span class="label">Pace</span><span class="value" id="modalPace"></span></div>
+                    <div class="data-item"><span class="label">Time</span><span class="value" id="modalTime"></span></div>
+                </div>
+                <div class="strava-section">
+                    <div class="strava-route-squiggle"></div>
+                    <div class="strava-text">NEXT HORIZON</div>
+                </div>
+            </div>
+            <div class="story-navigation">
+                <div class="nav-hitbox left" id="prevStory"></div>
+                <div class="nav-hitbox right" id="nextStory"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Centralized dummy data for all clickable avatars on this page
+            const stories = [
+                { id: "1", name: "CRISTIANO RONALDO", avatar: "https://i.pravatar.cc/150?u=cristiano", img: "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=400&auto=format&fit=crop", dist: "7.09 KM", pace: "4:59 /KM", time: "35m 22s" },
+                { id: "2", name: "ALEXANDRA EALA", avatar: "https://i.pravatar.cc/150?u=alexandra", img: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=400&auto=format&fit=crop", dist: "5.11 KM", pace: "6:03 /KM", time: "30m 57s" },
+                { id: "3", name: "CARLOS YULO", avatar: "https://i.pravatar.cc/150?u=carlos", img: "https://images.unsplash.com/photo-1530143311094-34d807799e8f?q=80&w=400&auto=format&fit=crop", dist: "5.02 KM", pace: "6:26 /KM", time: "33m 40s" },
+                { id: "4", name: "MANNY PACMAN PACQUIAO", avatar: "https://i.pravatar.cc/150?u=manny", img: "https://images.unsplash.com/photo-1502224562085-639556652f33?q=80&w=400&auto=format&fit=crop", dist: "5.01 KM", pace: "7:02 /KM", time: "35m 16s" },
+                { id: "5", name: "JASMINE JANE MARANGAY", avatar: "https://i.pravatar.cc/150?u=jasmine", img: "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=400&auto=format&fit=crop", dist: "4.86 KM", pace: "6:56 /KM", time: "76m 11s" },
+                { id: "6", name: "CHARLOTTE PASILOTTE", avatar: "https://i.pravatar.cc/150?u=charlotte", img: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=400&auto=format&fit=crop", dist: "4.72 KM", pace: "3:02 /KM", time: "60m 34s" },
+                { id: "7", name: "NORMAN DEL JESUS", avatar: "https://i.pravatar.cc/150?u=norman", img: "https://images.unsplash.com/photo-1530143311094-34d807799e8f?q=80&w=400&auto=format&fit=crop", dist: "3.49 KM", pace: "3:31 /KM", time: "89m 6s" },
+                { id: "8", name: "MONKEY D LUFFY", avatar: "https://i.pravatar.cc/150?u=luffy", img: "https://images.unsplash.com/photo-1502224562085-639556652f33?q=80&w=400&auto=format&fit=crop", dist: "2.21 KM", pace: "2:54 /KM", time: "47m 56s" },
+                { id: "profile", name: "MY PROFILE", avatar: "https://i.pravatar.cc/150?u=me", img: "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=400&auto=format&fit=crop", dist: "10.00 KM", pace: "5:00 /KM", time: "50m 00s" } // Mock data for profile icon
+            ];
+
+            const modal = document.getElementById('storyViewer');
+            let currentIndex = 0;
+
+            function openStory(index) {
+                if (index < 0) index = stories.length - 1; // Loop to end
+                if (index >= stories.length) index = 0;    // Loop to start
+
+                currentIndex = index;
+                const data = stories[currentIndex];
+
+                document.querySelector('.story-avatar').src = data.avatar;
+                document.querySelector('.story-name').textContent = data.name;
+                document.querySelector('.story-main-image').src = data.img;
+                document.getElementById('modalDist').textContent = data.dist;
+                document.getElementById('modalPace').textContent = data.pace;
+                document.getElementById('modalTime').textContent = data.time;
+
+                modal.style.display = 'block';
+            }
+
+            // Click event listener for triggers
+            document.querySelectorAll('.story-trigger').forEach(trigger => {
+                trigger.addEventListener('click', (e) => {
+                    const id = e.currentTarget.getAttribute('data-id'); // use currentTarget to catch clicks on nested SVG in profile icon
+                    const index = stories.findIndex(s => s.id === id);
+                    if (index !== -1) openStory(index);
+                });
+            });
+
+            // Navigation and Close logic
+            document.getElementById('prevStory').addEventListener('click', () => openStory(currentIndex - 1));
+            document.getElementById('nextStory').addEventListener('click', () => openStory(currentIndex + 1));
+            document.getElementById('closeStory').addEventListener('click', () => { modal.style.display = 'none'; });
+        });
+    </script>
+</body>
+</html>
+
+

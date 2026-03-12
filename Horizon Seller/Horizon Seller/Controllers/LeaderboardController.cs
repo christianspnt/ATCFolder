@@ -8,5 +8,15 @@ namespace Horizon_Seller.Controllers
         {
             return View();
         }
+
+        public IActionResult viewallboard()
+        {
+            return View();
+        }
+
+        public IActionResult leaderboard()
+        {
+            return View();
+        }
     }
 }
